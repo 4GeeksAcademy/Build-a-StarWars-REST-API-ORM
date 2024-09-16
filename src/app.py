@@ -36,14 +36,51 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
+@app.route('/people', methods=['GET'])
+def get_people(): 
+    people = User.query.all()
+    return jsonify(people), 200
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
+@app.route('/people/<int:people_id>', methods=['GET'])
+def get_people_id(people_id):
+    person = People.query.get(people_id)
+    if person:
+        return jsonify(person.serialize()), 200
+    else:
+        raise APIException("Person not found", status_code=404)
 
-    return jsonify(response_body), 200
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    pass
+
+@app.route('/planets/<int:planet_id>', methods=['GET'])
+def get_planet_id(planet_id):
+    pass
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    pass
+
+@app.route('/users/favorites', methods=['GET'])
+def get_user_fav():
+    pass
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
+def add_planet_fav(planet_id):
+    pass
+
+
+@app.route('/favorite/people/<int:people_id>', methods=['POST'])
+def add_people_fav(people_id):
+    pass
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
+def delete_planet(planet_id):
+    pass
+
+@app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
+def delete_people(people_id):
+    pass
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
